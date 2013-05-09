@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Acceuil</title>
+                <link href="../stylesheets/application.css" media="screen" rel="stylesheet" type="text/css" />
+                <script src="../javascripts/application.js" type="text/javascript"></script>
+
+            </f:facet>
+        </h:head>
+
+
+
+        <h:body>
+            <ui:include src="header.xhtml"/>
+
+            <div class="main-content">
+
+                <div class="container-fluid padded">
+                    <div class="row-fluid">
+
+                        <!-- Breadcrumb line -->
+
+                        <div id="breadcrumbs" >
+                            <div class="breadcrumb-button blue">
+                                <span class="breadcrumb-label"><i ></i> Home</span>
+                                <span class="breadcrumb-arrow"><span></span></span>
+                            </div>
+
+
+
+                            <div class="breadcrumb-button" style="margin-right: -80px">
+                                <span class="breadcrumb-label" >
+                                    <i ></i> Groupe
+                                </span>
+                                <span class="breadcrumb-arrow" ><span ></span></span>
+                            </div>
+
+                            <div class="btn-group" style="float: right; margin-top: 15px;">
+                                <h:form>
+                                    <p:button alt="Ajout Groupe" disabled="#{userBean.hidden}" icon="ui-icon-circle-plus" href="addGroup.xhtml?faces-redirect=true" style="margin-right: 15px; " />
+                                    <p:commandButton styleClass="btn btn-default" disabled="#{userBean.hidden}" alt="Supprimer Groupe"  ajax="false" icon="ui-icon-trash" action="#{userBean.supGroup()}" style="margin-right: 15px; " />
+                                    <p:button alt="Ajout Groupe" disabled="#{userBean.hidden}" icon="ui-icon-pencil" href="modifGroup.xhtml?faces-redirect=true" />
+                                </h:form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="container-fluid">
+                    <div class="row-fluid">
+
+                        <div class="area-top clearfix">
+                            <div class="pull-left header">
+                                <h3 class="title">
+
+                                    Groupe #{userBean.groupe.nom}
+                                </h3>
+                                <h5>
+                                    #{userBean.groupe.objectifs}
+                                </h5>
+                            </div>
+                            <h:form>
+                                <p:dataTable id="cars" var="project" value="#{userBean.projects}"  rowKey="#{project.id}"
+                                             selection="#{userBean.selectprojet}" selectionMode="single">  
+
+                                    <f:facet name="header">  
+                                        Click "Selected" button after selecting a row to see details  
+                                    </f:facet>  
+
+                                    <p:column headerText="Nom">  
+                                        #{project.nom}  
+                                    </p:column>  
+
+                                    <p:column headerText="description">  
+                                        #{project.description}  
+                                    </p:column>  
+
+                                    <p:column headerText="Date Creation" >  
+                                        #{project.dtCreation} 
+                                    </p:column>  
+
+                                    <p:column headerText="Date Modification">  
+                                        #{project.dtModification}  
+                                    </p:column>  
+
+                                    <p:column headerText="Statue">  
+                                        #{project.statu}  
+                                    </p:column> 
+
+                                    <f:facet name="footer">  
+                                        <p:commandButton id="viewButton" value="Selected" icon="ui-icon-search"  
+                                                         ajax="false"    action="#{userBean.slProject}"        />  
+                                    </f:facet>  
+
+                                </p:dataTable>  
+                            </h:form>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </h:body>
+
+    </f:view>
+</html>

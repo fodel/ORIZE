@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Acceuil</title>
+                <link href="../stylesheets/application.css" media="screen" rel="stylesheet" type="text/css" />
+                <script src="../javascripts/application.js" type="text/javascript"></script>
+
+            </f:facet>
+        </h:head>
+
+
+
+        <h:body>
+            <ui:include src="header.xhtml"/>
+
+            <div class="main-content">
+
+                <div class="container-fluid padded">
+                    <div class="row-fluid">
+
+                        <!-- Breadcrumb line -->
+
+                        <div id="breadcrumbs">
+                            <div class="breadcrumb-button blue">
+                                <span class="breadcrumb-label"><i ></i> Home</span>
+                                <span class="breadcrumb-arrow"><span></span></span>
+                            </div>
+
+
+
+                            <div class="breadcrumb-button">
+                                <span class="breadcrumb-label">
+                                    <i ></i> Groupe
+                                </span>
+                                <span class="breadcrumb-arrow"><span></span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid padded">
+                    <div class="row-fluid">
+                        <h:form>
+                            <ul class="chat-box timeline">
+                                <li class="arrow-box-left gray">
+                                    <div class="avatar"><img class="avatar-small" src="../${item.profil.pseudo}.png"/></div>
+                                    <div class="info">
+                                        <span class="name">
+                                            <span class="label label-blue">Post</span> <strong class="indent">#{userBean.publication.profil.nom} #{userBean.publication.profil.prenom}</strong> a commenté : <strong>#{userBean.publication.groupe.nom}</strong>
+                                        </span>
+                                        <span class="time" ><i ></i> 3 minutes ago</span>
+                                    </div>
+                                    <div class="content">
+                                        <blockquote>
+                                            <h:outputText value="#{userBean.publication.publication}"/>
+                                        </blockquote>
+                                        <div>
+                                            <a href="#"><i ></i> <b></b></a>
+                                        </div>
+
+                                    </div>
+                                </li>
+                                <c:forEach items="${userBean.commentaires}" var="item">
+
+                                    <li class="arrow-box-left gray" style="margin-left: 200px">
+                                        <div class="avatar"><img class="avatar-small" src="../${item.profil.pseudo}.png"/></div>
+                                        <div class="info">
+                                            <span class="name">
+                                                <span class="label label-green">COMMENT</span> <strong class="indent">${item.profil.nom} ${item.profil.prenom}</strong> ${item.commentaire} </span>
+                                            
+                                            <span class="time"><i ></i> <p:commandButton styleClass="btn btn-default" alt="Supprimer Groupe" icon="ui-icon-trash" ajax="false" action="${userBean.suppCommentaire(item)}" />
+                                                    6 minutes ago</span>
+                                        </div>
+                                    </li>
+
+                                </c:forEach>
+
+                            </ul>
+                            <div class="box closable-chat-box">
+                                <div class="box-content padded">
+
+                                    <div class="fields">
+                                        <div class="avatar"><img class="avatar-small" src="../#{userBean.profil.pseudo}.png"/></div>
+                                        <ul>
+                                            <li><b>Add a comment for Post <a href="#">#{userBean.publication.groupe.nom}</a></b></li>
+                                            <li class="note">Click on the textarea below to expand it!</li>
+                                        </ul>
+                                    </div>
+
+
+                                    <div class="chat-message-box" style="height: 80px; margin-bottom: 5px;">
+                                        <p:inputTextarea  value="#{userBean.commentaire.commentaire}" rows="40" autoResize="false" style="height: 63px;"  />
+                                            
+                                        </div>
+
+                                        <div class="clearfix">
+                                            <span class="note">An optional note can go here</span>
+                                            <div class="pull-right faded-toolbar">
+                                                <p:commandButton styleClass="btn btn-blue btn-mini" ajax="false" action="#{userBean.commenter()}" value="Send"  />
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+                        </h:form>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </h:body>
+
+    </f:view>
+</html>

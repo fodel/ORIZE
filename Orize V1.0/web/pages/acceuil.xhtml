@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Acceuil</title>
+                <link href="../stylesheets/application.css" media="screen" rel="stylesheet" type="text/css" />
+                <script src="../javascripts/application.js" type="text/javascript"></script>
+
+            </f:facet>
+        </h:head>
+
+
+
+        <h:body >
+            <ui:include src="header.xhtml"/>
+
+            <div class="main-content">
+
+                <div class="container-fluid padded">
+                    <div class="row-fluid">
+
+                        <!-- Breadcrumb line -->
+
+                        <div id="breadcrumbs">
+                            <div class="breadcrumb-button blue">
+                                <span class="breadcrumb-label"><i ></i> Home</span>
+                                <span class="breadcrumb-arrow"><span></span></span>
+                            </div>
+
+
+
+                            <div class="breadcrumb-button">
+                                <span class="breadcrumb-label">
+                                    <i ></i> Actualité
+                                </span>
+                                <span class="breadcrumb-arrow"><span></span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid padded ">
+                    <div class="row-fluid"  >
+                        <center>
+                            <div class="" style="border:3px solid windowframe; width: 60%; margin-bottom: 30px">
+
+
+
+                                <h:form style="margin-right: 10px">
+
+                                    <p:growl id="messages"/>
+
+
+
+                                    <p:menubar  style="width :62%;  margin-bottom: 20px;margin-top: 10px" >
+                                        <p:menuitem value="Home" icon="ui-icon-home" url ="acceuil.xhtml" />
+
+
+
+                                        <p:menuitem value="plier" actionListener="#{mindmapBean.export}" icon="ui-icon-arrowreturnthick-1-w" />  >
+
+
+                                        <p:menuitem value="déplier" url="#" icon="ui-icon-arrowreturnthick-1-e" />
+
+                                        <p:submenu label="Créer" icon="ui-icon-circle-plus">
+
+                                            <p:menuitem value="#{mindmapBean.selectedNode.data}" actionListener="#{userBean.test}" icon="ui-icon-circle-plus" update="messages" />
+                                         
+
+                                            <p:separator />
+                                            <p:menuitem value="Organisation" url="#" icon="ui-icon-circle-plus"/>
+                                        </p:submenu>
+
+                                        <p:submenu label="Actions" icon="ui-icon-gear">
+                                            <p:menuitem value="Save" actionListener="#{mindmapBean.onNodeSelect}" icon="ui-icon-disk" update="messages"/>
+                                            <p:separator />
+                                            <p:menuitem value="Refrech" actionListener="#{menuBean.update}" icon="ui-icon-arrowrefresh-1-w" update="messages"/>
+
+
+                                        </p:submenu>
+
+
+
+
+
+                                        <p:submenu label="Help" icon="ui-icon-help">
+                                            <p:menuitem value="Contents" url="#" />
+                                            <p:submenu label="Search" icon="ui-icon-search">
+                                                <p:menuitem value="Organisation" url="#"/>
+
+                                                <p:menuitem value="Groupe" url="#" />
+                                            </p:submenu>
+                                        </p:submenu>
+
+
+
+
+                                        <f:facet name="options">
+                                            <p:inputText style="margin-right:10px;width: 100px"/>
+                                            <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
+                                        </f:facet>
+
+                                    </p:menubar>
+
+
+
+                                </h:form>
+                                <h:form id="mindmap" >
+                                    <center>
+
+                                        <p:mindmap  value="#{mindmapBean.root}"   style="  width:100%;height:500px; background-color: #eeeeee; border: none; "> 
+                                            <p:ajax  event="select" listener="#{mindmapBean.onNodeSelect}" />
+                                            <p:ajax event="dblselect" listener="#{userBean.onNodeDblselect}" /> 
+
+                                        </p:mindmap> 
+
+                                    </center>
+                                    <p:dialog widgetVar="details" header="Node Details" resizable="true" modal="true" showEffect="fade" hideEffect="fade">  
+                                        <h:outputText id="output" value="#{mindmapBean.selectedNode.data}" />  
+                                    </p:dialog> 
+                                </h:form>  
+
+                            </div>
+                        </center>
+
+                    </div>
+
+                </div>
+            </div>
+        </h:body>
+
+    </f:view>
+</html>

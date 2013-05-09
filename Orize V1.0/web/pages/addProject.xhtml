@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Acceuil</title>
+                <link href="../stylesheets/application.css" media="screen" rel="stylesheet" type="text/css" />
+                <script src="../javascripts/application.js" type="text/javascript"></script>
+
+            </f:facet>
+        </h:head>
+
+
+
+        <h:body>
+            <ui:include src="header.xhtml"/>
+
+            <div class="main-content">
+
+                <div class="container-fluid padded">
+                    <div class="row-fluid">
+
+                        <!-- Breadcrumb line -->
+
+                        <div id="breadcrumbs" >
+                            <div class="breadcrumb-button blue">
+                                <span class="breadcrumb-label"><i ></i> Home</span>
+                                <span class="breadcrumb-arrow"><span></span></span>
+                            </div>
+
+
+
+                            <div class="breadcrumb-button" style="margin-right: -80px">
+                                <span class="breadcrumb-label" >
+                                    <i ></i> Groupe
+                                </span>
+                                <span class="breadcrumb-arrow" ><span ></span></span>
+                            </div>
+
+                            <div class="btn-group" style="float: right; margin-top: 15px;">
+                                <h:form>
+                                    <p:button alt="Ajout Groupe" disabled="#{userBean.hidden}" icon="ui-icon-circle-plus" href="addGroup.xhtml?faces-redirect=true" style="margin-right: 15px; " />
+                                    <p:commandButton styleClass="btn btn-default" disabled="#{userBean.hidden}" alt="Supprimer Groupe"  ajax="false" icon="ui-icon-trash" action="#{userBean.supGroup()}" style="margin-right: 15px; " />
+                                    <p:button alt="Ajout Groupe" disabled="#{userBean.hidden}" icon="ui-icon-pencil" href="modifGroup.xhtml?faces-redirect=true" />
+                                </h:form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="container-fluid padded">
+                    <div class="row-fluid">
+           
+                        <h:form id="carForm" style="font-size: x-small;">
+                             <h:outputText value="Basic Usage: " />
+        <p:selectOneMenu value="#{userBean.role}">
+            <f:selectItem itemLabel="Select One" itemValue="" />
+            <f:selectItem itemLabel="Administrateur" itemValue="administrateur" />
+            <f:selectItem itemLabel="Modérateur" itemValue="modérateur" />
+            <f:selectItem itemLabel="Membre" itemValue="membre" />
+        </p:selectOneMenu>s
+                            <p:fieldset legend="AvailableCars">
+
+        <p:dataGrid id="availableCars" var="profil"
+                    value="#{userBean.membres}" columns="3">
+
+            <p:column>
+
+                <p:panel id="pnl" header="#{profil.nom}" style="text-align:center">
+                    <h:panelGrid columns="1" style="width:100%">
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:draggable for="pnl" revert="true"
+                        handle=".ui-panel-titlebar" stack=".ui-panel"/>
+
+            </p:column>
+
+        </p:dataGrid>
+
+    </p:fieldset>
+
+    <p:fieldset id="selectedCars" legend="Selected Cars" style="margin-top:20px">
+
+        <p:outputPanel id="dropArea">
+
+            <h:outputText value="!!!Drop here!!!"
+                          rendered="#{empty userBean.membresselct}"
+                    style="font-size:24px;" />
+
+            <p:dataTable var="profil" value="#{userBean.membresselct}"
+                    rendered="#{not empty userBean.membresselct}">
+
+                <p:column headerText="Model">
+                    <h:outputText value="#{profil.nom}" />
+                </p:column>
+
+                <p:column headerText="Year">
+                    <h:outputText value="#{profil.prenom}" />
+                </p:column>
+
+                <p:column headerText="Manufacturer">
+                    <h:outputText value="#{profil.adresse}" />
+                </p:column>
+
+                <p:column headerText="Color">
+                    <h:outputText value="#{profil.pseudo}" />
+                </p:column>
+
+                 <p:column style="width:32px">
+                    <p:commandButton 
+                        icon="ui-icon-search">
+                        <f:setPropertyActionListener value="#{profil}"
+                                                     target="#{userBean.profilnew}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+        </p:outputPanel>
+
+    </p:fieldset>
+
+    <p:droppable for="selectedCars" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="availableCars" onDrop="onselect">
+        <p:ajax listener="#{userBean.onCarDrop}" update="dropArea availableCars" />
+    </p:droppable>
+
+        <p:commandButton value="add" ajax="false" action="#{userBean.addmember()}" />
+  
+                        </h:form>
+
+        </div>
+
+                </div>
+            </div>
+
+        </h:body>
+
+    </f:view>
+</html>

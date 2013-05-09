@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Acceuil</title>
+                <link href="../stylesheets/application.css" media="screen" rel="stylesheet" type="text/css" />
+                <script src="../javascripts/application.js" type="text/javascript"></script>
+
+            </f:facet>
+        </h:head>
+
+
+
+        <h:body>
+            <ui:include src="header.xhtml"/>
+
+            
+            <div class="main-content">
+
+                <div class="container-fluid padded">
+                    <div class="row-fluid">
+
+                        <!-- Breadcrumb line -->
+
+                        <div id="breadcrumbs" >
+                            <div class="breadcrumb-button blue">
+                                <span class="breadcrumb-label"><i ></i> Acceuil</span>
+                                <span class="breadcrumb-arrow"><span></span></span>
+                            </div>
+
+
+
+                            <div class="breadcrumb-button" style="margin-right: -80px">
+                                <span class="breadcrumb-label" >
+                                    <i ></i> Groupe
+                                </span>
+                                <span class="breadcrumb-arrow" ><span ></span></span>
+                            </div>
+
+                            <div class="btn-group" style="float: right; margin-top: 15px;">
+                                <h:form>
+                                    <p:button alt="Ajout Groupe" disabled="#{userBean.hidden}" icon="ui-icon-circle-plus" href="addGroup.xhtml?faces-redirect=true" style="margin-right: 15px; " />
+                                    <p:commandButton styleClass="btn btn-default" disabled="#{userBean.hidden}" alt="Supprimer Groupe"  ajax="false" icon="ui-icon-trash" action="#{userBean.supGroup()}" style="margin-right: 15px; " />
+                                    <p:button alt="Ajout Groupe" disabled="#{userBean.hidden}" icon="ui-icon-pencil" href="modifGroup.xhtml?faces-redirect=true" />
+                                </h:form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="container-fluid">
+                    <div class="row-fluid">
+
+                        <div class="area-top clearfix">
+                            <div class="pull-left header">
+                                <h3 class="title">
+
+                                    Groupe #{userBean.groupe.nom}
+                                </h3>
+                                <h5>
+                                    #{userBean.groupe.objectifs}
+                                </h5>
+                            </div>
+
+                            <ul class="inline pull-right sparkline-box">
+
+                                <li class="sparkline-row">
+                                     <p:button styleClass="btn btn-default"  alt="Membre du Groupe"   icon="ui-icon-search" href="ring.xhtml?faces-redirect=true" />
+                                    <h4 class="blue"><span>Membres</span> #{userBean.users.size()}</h4>
+                                    <div class="" ><canvas style="display: inline-block; width: 82px; height: 30px; vertical-align: top;" width="82" height="30"></canvas></div>
+                                </li>
+
+                                <li class="sparkline-row">
+                                    <h4 class="green"><span>Posts</span> #{userBean.publications.size()}</h4>
+                                    <div class="" data-color="green"><canvas style="display: inline-block; width: 82px; height: 30px; vertical-align: top;" width="82" height="30"></canvas></div>
+                                </li>
+
+                                <li class="sparkline-row">
+                                    <h4 class="red"><span>Projects</span> #{userBean.groupe.projets.size()}</h4>
+                                    <div class="">
+                                        <h:form>
+                                            <center>
+                                                <p:commandButton styleClass="btn btn-default"  icon="ui-icon-search" ajax="false"  action="#{userBean.projectList()}" />
+                                            </center>
+                                        </h:form>
+
+                                        <h:form>
+                                            <p:commandButton styleClass="btn btn-default" alt="Create Project" icon="ui-icon-plus" onclick="dlg.show()"  />
+                                            <p:dialog id="dialog" header="Ajout projet" widgetVar="dlg" resizable="false">  
+
+                                                <h:panelGrid columns="2" cellpadding="5">  
+                                                    <h:outputLabel  value="Nom Projet:" />  
+                                                    <p:inputText value="#{userBean.projet.nom}"   
+                                                                 id="name" required="true" label="nomprojet" />  
+
+                                                    <h:outputLabel value="Description:" />  
+                                                    <h:inputSecret value="#{userBean.projet.description}"   
+                                                                   id="desc" required="true" label="description" />  
+
+                                                    <h:outputLabel value="Statue:" />  
+                                                    <h:inputSecret value="#{userBean.projet.statu}"   
+                                                                   id="stat" required="true" label="statue" /> 
+
+                                                    <f:facet name="footer">  
+                                                        <p:commandButton id="SaveButton" value="Save"   
+                                                                         actionListener="#{userBean.saveProjet}" ajax="false" />  
+                                                    </f:facet>  
+                                                </h:panelGrid>  
+
+                                            </p:dialog>  
+                                        </h:form>
+
+                                        <canvas style="display: inline-block; width: 82px; height: 30px; vertical-align: top;" width="82" height="30"></canvas></div>
+                                </li>
+
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid padded">
+                    <div class="row-fluid">
+                        <h:form>
+                            <div class="box closable-chat-box">
+                                <div class="box-content padded">
+
+                                    <div class="fields" style="margin-bottom: 15px;">
+                                        <div class="avatar"><img class="avatar-small" src="../#{userBean.profil.pseudo}.png"/></div>
+                                        <ul>
+                                            <li><b>Ajouter une nouvelle publication <a href="#">#{userBean.groupe.nom}</a></b></li>
+                                            <li class="note" ></li>
+                                        </ul>
+                                    </div>
+
+
+                                    <div class="chat-message-box" style="height: 80px; margin-bottom: 5px;">
+                                        <p:inputTextarea  value="#{userBean.newpublication.publication}" rows="40" autoResize="false" style="height: 63px;"  />
+
+                                    </div>
+
+                                    <div class="clearfix">
+                                        <span class="note">An optional note can go here</span>
+                                        <div class="pull-right faded-toolbar">
+                                            <p:commandButton styleClass="btn btn-blue btn-mini" ajax="false" action="#{userBean.publier()}" value="Send"  />
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <ul class="chat-box timeline">
+
+                                <c:forEach items="${userBean.publications}" var="item">
+
+                                    <li class="arrow-box-left gray">
+                                        <div class="avatar"><img class="avatar-small" src="../${item.profil.pseudo}.png"/></div>
+                                        <div class="info">
+                                            <span class="name">
+                                                <span class="label label-blue">Post</span> <strong class="indent">${item.profil.nom} ${item.profil.prenom}</strong> posted in this group: <strong>${item.groupe.nom}</strong>
+                                            </span>
+                                            <span class="time" ><div class="btn-group">
+                                                    <p:commandButton styleClass="btn btn-default" alt="Supprimer Groupe" icon="ui-icon-trash" ajax="false" action="${userBean.suppPublication(item)}" />
+                                                </div> 3 minutes ago</span>
+                                        </div>
+                                        <div class="content">
+                                            <blockquote>
+                                                <h:outputText value="${item.publication}"/>
+                                            </blockquote>
+                                            <div>
+                                                <a href="#"><i ></i> <b></b></a>
+                                            </div>
+
+                                        </div>
+                                    </li>
+                                    <center>
+                                        <p:commandButton value="Commentaires" action="#{userBean.comment(item)}" styleClass="row-fluid btn btn-lightblue" style="width: 50%; height: 10px" />
+                                    </center>
+                                </c:forEach>
+
+                            </ul>
+                        </h:form>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </h:body>
+
+    </f:view>
+</html>

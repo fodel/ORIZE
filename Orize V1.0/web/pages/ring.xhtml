@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <head>
+        <title>TODO supply a title</title>
+    </head>
+    <body>
+        <ui:include src="header.xhtml"/>
+      
+        <h:form id="form">
+
+    <h3>Basic Ring</h3>
+    <p:ring id="basic" value="#{MembreBean.players}" var="player">
+        <p:outputPanel style="text-align:center;" layout="block">
+          
+            <p:commandButton update=":form:detail"
+                        icon="ui-icon-search"
+                        title="View" oncomplete="dlg.show()">
+                <f:setPropertyActionListener value="#{player}"
+                    target="#{MembreBean.selectedPlayer}" />
+            </p:commandButton>
+        </p:outputPanel>
+    </p:ring>
+
+    <h3>Images with Custom Easing</h3>
+    <p:ring id="custom" value="#{MembreBean.players}" var="player"
+                styleClass="image-ring" easing="easeInOutBack">
+        <p:graphicImage value="/images/barca/#{MembreBean.photo}"/>
+    </p:ring>
+
+    <p:dialog id="dialog" widgetVar="dlg" showEffect="fade" hideEffect="fade" modal="true" width="125">
+
+        <p:outputPanel id="detail" style="text-align:center;" layout="block">
+
+            <h:panelGrid  columns="2" cellpadding="5" rendered="#{not empty MembreBean.selectedPlayer}">
+                <f:facet name="header">
+                    <p:graphicImage
+                            value="/images/barca/#{MembreBean.selectedPlayer.photo}"
+                            width="40" height="50"/>
+                </f:facet>
+
+                <h:outputText value="Name: " />
+                <h:outputText id="modelNo"
+                            value="#{MembreBean.selectedPlayer.name}" />
+
+                <h:outputText value="Number " />
+                <h:outputText id="year"
+                            value="#{MembreBean.selectedPlayer.number}" />
+
+                <h:outputText value="Position " />
+                <h:outputText value="#{MembreBean.selectedPlayer.position}"/>
+            </h:panelGrid>
+        </p:outputPanel>
+
+    </p:dialog>
+
+</h:form>
+					
+    </body>
+</html>
